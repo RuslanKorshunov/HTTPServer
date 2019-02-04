@@ -1,7 +1,5 @@
 package Conroller;
 
-import javax.swing.plaf.PanelUI;
-
 public class ResponseCodes
 {
     public static final int OK=200;
@@ -22,6 +20,8 @@ public class ResponseCodes
     {
         switch(code)
         {
+            case 200:
+                return "OK";
             case 400:
                 return "Bad Request";
             case 501:
