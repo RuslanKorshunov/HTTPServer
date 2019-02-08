@@ -1,49 +1,28 @@
-//необходимо реализовать монитор
 package Conroller;
 
 import View.MainWindow;
 
 import java.io.*;
-import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
-public class HTTPServer
+class SocketProcessor extends Thread
 {
-    private final int PORT=8080;//не делать константой, сделать возможность выбора другого порта
-    private MainWindow mainWindow;
-    private ServerSocket serverSocket;
-    private Socket socket;
-
-    public HTTPServer(MainWindow mainWindow)
-    {
-        this.mainWindow=mainWindow;
-        try
-        {
-            serverSocket = new ServerSocket(PORT);
-            mainWindow.deliverMessage("Server started\nPort: "+PORT+"\n...");
-            while (true)
-            {
-                socket=serverSocket.accept();
-                mainWindow.deliverMessage("\nClient accepted");
-                SocketProcessor socketProcessor=new SocketProcessor(socket, mainWindow);
-                socketProcessor.start();
-            }
-        }
-        catch(IOException e)
-        {
-            mainWindow.deliverMessage("Server Connection error: "+e.getMessage());
-        }
-    }
-
-    /*private class SocketProcessor extends Thread
-    {
     private Socket socket;
     private BufferedReader in;
     private BufferedWriter out;
+    MainWindow mainWindow;
 
-    SocketProcessor(Socket s)
+    private final String DEFAULT_PAGE="files/main_page.html";
+    private final String NOT_FOUND_PAGE="files/not_found.html";
+    private final String HTTP_VERSION_NOT_SUPPORTED_PAGE="files/http_version_not_supported.html";
+
+    SocketProcessor(Socket s, MainWindow mainWindow)
     {
         socket=s;
+        this.mainWindow=mainWindow;
     }
 
     @Override
@@ -213,5 +192,4 @@ public class HTTPServer
                 "\nContent-length: ";
         mainWindow.deliverMessage(response);
     }
-}*/
 }
